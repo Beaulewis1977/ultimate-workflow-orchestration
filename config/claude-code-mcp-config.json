@@ -1,0 +1,73 @@
+{
+  "mcpServers": {
+    "perplexity-mcp": {
+      "command": "npx",
+      "args": ["-y", "@perplexity-ai/mcp-server"]
+    },
+    "context7": {
+      "command": "npx", 
+      "args": ["-y", "@context7/mcp-server"]
+    },
+    "deep-code-reasoning": {
+      "command": "node",
+      "args": ["/home/kngpn/deep-code-reasoning-mcp/dist/index.js"],
+      "env": {
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}"
+      }
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "mcp-sequentialthinking-tools"]
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": ["-y", "@brave-search/mcp-server"]
+    },
+    "fetch": {
+      "command": "npx", 
+      "args": ["-y", "@modelcontextprotocol/server-fetch"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "puppeteer": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+    },
+    "playwright": {
+      "command": "npx", 
+      "args": ["-y", "@modelcontextprotocol/server-playwright"]
+    },
+    "agentic-tools": {
+      "command": "npx",
+      "args": ["-y", "@agentic-tools/mcp-server"]
+    },
+    "taskmaster-ai": {
+      "command": "npx",
+      "args": ["-y", "@taskmaster-ai/mcp-server"]
+    },
+    "vibe-kanban": {
+      "command": "npx",
+      "args": ["-y", "@vibe-kanban/mcp-server"]
+    },
+    "desktop-commander": {
+      "command": "npx",
+      "args": ["-y", "@desktop-commander/mcp-server"]
+    },
+    "dart": {
+      "command": "npx",
+      "args": ["-y", "@dart-tools/mcp-server"],
+      "env": {
+        "DART_API_TOKEN": "${DART_API_TOKEN}"
+      }
+    },
+    "ide": {
+      "command": "npx",
+      "args": ["-y", "@ide-tools/mcp-server"]
+    }
+  }
+}

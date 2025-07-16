@@ -1,0 +1,68 @@
+{
+  "name": "AI Development Integration",
+  "version": "1.0.0",
+  "description": "Automated integration of Vibe-Coder + BMAD + Tmux-Orchestrator",
+  
+  "tools": {
+    "vibe_coder": {
+      "type": "mcp_server",
+      "location": "C:/vibe-coder-mcp",
+      "integration": "claude_code_global",
+      "commands": ["research", "curate-context", "generate-prd"],
+      "purpose": "Research and context curation"
+    },
+    "bmad_method": {
+      "type": "global_command",
+      "command": "bmad",
+      "integration": "claude_code_slash_commands",
+      "commands": ["/analyst", "/pm", "/architect", "/dev", "/qa", "/ux-expert"],
+      "purpose": "Strategic planning and expert analysis"
+    },
+    "tmux_orchestrator": {
+      "type": "terminal_multiplexer",
+      "location": "/mnt/c/ai-development-ecosystem/autonomous-claude-system/Tmux-Orchestrator",
+      "integration": "autonomous_coordination",
+      "commands": ["send-claude-message.sh", "schedule_with_note.sh"],
+      "purpose": "Autonomous multi-agent development"
+    }
+  },
+  
+  "workflows": {
+    "new_saas": {
+      "phases": [
+        "Research (Vibe-Coder) → Planning (BMAD) → Execution (Tmux-Orchestrator)"
+      ],
+      "automation": "ai-development-orchestrator.sh"
+    },
+    "enhance_existing": {
+      "phases": [
+        "Analysis (Vibe-Coder) → Strategy (BMAD) → Implementation (Tmux-Orchestrator)"
+      ],
+      "automation": "Custom workflow per project"
+    }
+  },
+  
+  "integration_points": {
+    "research_to_planning": {
+      "from": "vibe_coder_research",
+      "to": "bmad_analysis", 
+      "method": "File sharing via workspace directory"
+    },
+    "planning_to_execution": {
+      "from": "bmad_planning",
+      "to": "tmux_autonomous_dev",
+      "method": "Project specifications and implementation plans"
+    },
+    "cross_platform": {
+      "wsl_access": "/mnt/c/ai-development-ecosystem/autonomous-claude-system",
+      "windows_access": "C:\\bmad-workspace",
+      "sync_method": "Real-time file system integration"
+    }
+  },
+  
+  "quick_start": {
+    "script": "./ai-development-orchestrator.sh [project-name]",
+    "test": "./projects/[project-name]/test-integration.sh",
+    "launch": "./projects/[project-name]/start-integrated-development.sh"
+  }
+}

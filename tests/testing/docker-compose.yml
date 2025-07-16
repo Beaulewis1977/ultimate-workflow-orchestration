@@ -1,0 +1,180 @@
+version: '3.8'
+
+services:
+  # Main testing environment
+  test-runner:
+    build:
+      context: .
+      target: production
+    volumes:
+      - ./reports:/app/reports
+      - ../:/workspace:ro  # Mount workspace as read-only
+    environment:
+      - TESTING=true
+      - BMAD_WORKSPACE=/workspace
+      - PYTHONPATH=/app:/workspace
+    networks:
+      - test-network
+    depends_on:
+      - test-database
+      - test-redis
+
+  # Development testing environment
+  test-dev:
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/app
+      - ../:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock  # For Docker-in-Docker testing
+    environment:
+      - TESTING=true
+      - BMAD_WORKSPACE=/workspace
+      - PYTHONPATH=/app:/workspace
+      - DEBUG=true
+    ports:
+      - "8080:8080"  # For development server
+    networks:
+      - test-network
+    depends_on:
+      - test-database
+      - test-redis
+    command: ["pytest", "--verbose", "--tb=long", "--pdb-trace"]
+
+  # CI/CD testing environment
+  test-ci:
+    build:
+      context: .
+      target: ci
+    volumes:
+      - ./reports:/app/reports
+      - ../:/workspace:ro
+    environment:
+      - TESTING=true
+      - BMAD_WORKSPACE=/workspace
+      - PYTHONPATH=/app:/workspace
+      - CI=true
+    networks:
+      - test-network
+    depends_on:
+      - test-database
+      - test-redis
+
+  # Performance testing environment
+  test-performance:
+    build:
+      context: .
+      target: production
+    volumes:
+      - ./reports:/app/reports
+      - ../:/workspace:ro
+    environment:
+      - TESTING=true
+      - BMAD_WORKSPACE=/workspace
+      - PYTHONPATH=/app:/workspace
+      - PERFORMANCE_TESTING=true
+    networks:
+      - test-network
+    depends_on:
+      - test-database
+      - test-redis
+    command: ["pytest", "performance/", "--verbose", "--benchmark-json=reports/benchmark.json"]
+
+  # Security testing environment
+  test-security:
+    build:
+      context: .
+      target: development
+    volumes:
+      - ./reports:/app/reports
+      - ../:/workspace:ro
+    environment:
+      - TESTING=true
+      - BMAD_WORKSPACE=/workspace
+      - PYTHONPATH=/app:/workspace
+      - SECURITY_TESTING=true
+    networks:
+      - test-network
+    command: [
+      "sh", "-c", 
+      "bandit -r /workspace -f json -o reports/security-report.json || true && \
+       safety check --json --output reports/safety-report.json || true && \
+       pytest qa/test_security_validation.py --verbose"
+    ]
+
+  # Test database for integration tests
+  test-database:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_DB=test_bmad
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=test_password
+    volumes:
+      - test-db-data:/var/lib/postgresql/data
+    networks:
+      - test-network
+    ports:
+      - "5433:5432"  # Non-standard port to avoid conflicts
+
+  # Test Redis for caching tests
+  test-redis:
+    image: redis:7-alpine
+    volumes:
+      - test-redis-data:/data
+    networks:
+      - test-network
+    ports:
+      - "6380:6379"  # Non-standard port to avoid conflicts
+
+  # Test monitoring with Prometheus
+  test-prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - test-network
+    ports:
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+
+  # Test metrics collection
+  test-grafana:
+    image: grafana/grafana:latest
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - test-grafana-data:/var/lib/grafana
+      - ./monitoring/grafana:/etc/grafana/provisioning
+    networks:
+      - test-network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - test-prometheus
+
+  # Load testing service
+  load-tester:
+    image: locustio/locust:latest
+    volumes:
+      - ./performance/locustfiles:/mnt/locust
+    networks:
+      - test-network
+    ports:
+      - "8089:8089"
+    environment:
+      - LOCUST_FILE=/mnt/locust/autonomous_system_load_test.py
+    command: ["locust", "--web-host=0.0.0.0"]
+
+volumes:
+  test-db-data:
+  test-redis-data:
+  test-grafana-data:
+
+networks:
+  test-network:
+    driver: bridge
