@@ -217,13 +217,14 @@ npx vibe-kanban
 # Required
 - Claude Code CLI
 - Python 3.8+
-- Node.js 18+
+- Node.js 20+ (required for BMAD-METHOD)
 - Git
 - tmux
 
 # Recommended  
 - Docker
 - Redis (for advanced features)
+- uv (Python package manager for Make-it-Heavy)
 ```
 
 ### **1. Clone & Install**
@@ -233,15 +234,24 @@ cd ultimate-workflow-orchestration
 ./install.sh
 ```
 
+**The install.sh script automatically installs ALL 20+ tools:**
+- ✅ **16 MCP Tools**: Vibe-Coder, Perplexity, Context7, Sequential Thinking, Brave Search, GitHub, Playwright, Puppeteer, TaskMaster AI, Agentic Tools, Vibe-Kanban, Desktop Commander, Dart Tools, IDE Integration, and Fetch Tools
+- ✅ **BMAD-METHOD**: Strategic AI planning framework (`npx bmad-method install`)
+- ✅ **Tmux Orchestrator**: 24/7 agent coordination (cloned from GitHub)
+- ✅ **Make-it-Heavy**: Multi-agent framework (with integration functions)
+- ✅ **Deep Code Reasoning**: Advanced analysis engine (if available)
+- ✅ **Python Dependencies**: Core orchestration and memory management systems
+
 ### **2. Configure API Keys**
 ```bash
 cp .env.example .env
 # Edit .env with your API keys:
-# - ANTHROPIC_API_KEY (Claude)
-# - PERPLEXITY_API_KEY 
-# - GEMINI_API_KEY
-# - OPENROUTER_API_KEY (for Make-it-Heavy)
-# - GITHUB_TOKEN
+# - ANTHROPIC_API_KEY (Claude) - REQUIRED
+# - PERPLEXITY_API_KEY (Research) - REQUIRED
+# - GEMINI_API_KEY (Deep Code Reasoning) - REQUIRED  
+# - OPENROUTER_API_KEY (Make-it-Heavy) - REQUIRED
+# - GITHUB_TOKEN (GitHub integration) - RECOMMENDED
+# - DART_API_TOKEN (Dart tools) - OPTIONAL
 ```
 
 ### **3. Activate System**
@@ -256,11 +266,23 @@ python3 src/claude-md-auto-deploy.py --project "$(pwd)" --auto-detect
 python3 src/autonomous-master-orchestrator.py --project "$(pwd)"
 ```
 
-### **4. Start Development**
+### **4. Autonomous Development Magic**
 ```bash
-# In Claude Code, provide your project prompt:
+# In Claude Code, provide ANY project prompt:
 "Build a complete SaaS analytics platform with React dashboard and Python backend"
 ```
+
+**🎯 Claude Code Automatically:**
+1. **📊 Analyzes** your project and detects type (new SaaS, existing app, etc.)
+2. **🔍 Researches** using Vibe-Coder + Perplexity + Context7 for comprehensive analysis
+3. **📋 Plans** with BMAD-METHOD expert agents (/analyst, /pm, /architect)
+4. **📝 Creates** detailed TODO lists using TaskMaster AI with dependencies
+5. **🎭 Orchestrates** 24/7 agent teams via Tmux Orchestrator
+6. **🚀 Builds** using coordinated multi-agent development (Make-it-Heavy)
+7. **🧪 Tests** with Playwright + Desktop Commander automation
+8. **🔧 Deploys** with GitHub Actions and monitoring
+
+**🤖 Zero Manual Tool Selection - Claude Code intelligently chooses and coordinates ALL tools based on your prompt!**
 
 ---
 
