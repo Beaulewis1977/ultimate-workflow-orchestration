@@ -49,6 +49,7 @@ echo "✅ Scripts made executable"
 
 # Install global MCP tools
 echo "📦 Installing global MCP tools..."
+npm install -g @freshtechbro/vibe-coder-mcp
 npm install -g @perplexity-ai/mcp-server
 npm install -g @context7/mcp-server
 npm install -g mcp-sequentialthinking-tools
