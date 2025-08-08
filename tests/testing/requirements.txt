@@ -21,7 +21,7 @@ bandit==1.7.5
 safety==2.3.5
 
 # Code Quality
-black==23.11.0
+black==24.3.0
 flake8==6.1.0
 mypy==1.7.1
 pylint==3.0.3
@@ -44,7 +44,7 @@ pytest-postgresql==5.0.0
 pytest-redis==3.0.2
 
 # API Testing
-requests==2.31.0
+requests==2.32.4
 httpx==0.25.2
 
 # Load Testing
